@@ -1,0 +1,19 @@
+# OS
+nul
+Thumbs.db
+.DS_Store
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+
+# Backend
+backend/venv/
+backend/target/
+backend/.graaltmp/
+backend/compile.log
+backend/classpath.txt
+backend/src/main/java/TestRun.java
+backend/src/main/java/com/thevine/engine/ExecutionEngine.java.corrupted
+backend/src/main/java/com/thevine/engine/ExecutionEngine.java.tmp
+backend/src/main/java/com/thevine/engine/ExecutionEngine.java.tmp2
