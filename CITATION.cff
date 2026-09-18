@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+title: "TheVine: A Single-File Polyglot IDE for Declarative Cross-Language Data Exchange via GraalVM"
+message: "If you use TheVine in your research or software development work, please cite this software."
+type: software
+authors:
+
+* given-names: "Stephen Ebuka"
+  family-names: "Iheagwara"
+  orcid: 0009000580331882
+* given-names: "Kopsam Elisha"
+  family-names: "Leyden"
+  orcid: 0009000890017717
+* given-names: "Godwin Akong"
+  family-names: "Otu"
+  orcid: 0009000784287668
+* given-names: "Yusuf Sahabi"
+  family-names: "Ali"
+  repository-code: "https://github.com/ElishaLeyden/TheVine"
+  abstract: "TheVine is a single-file polyglot IDE that provides a declarative programming model for cross-language data exchange through a GraalVM-based execution environment."
+  keywords:
+* "polyglot programming"
+* "integrated development environment"
+* "GraalVM"
+* "cross-language data exchange"
+* "programming languages"
+* "software engineering"
+  license: "MIT"
+  year: 2026
+  version: "1.0.0"
