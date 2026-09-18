@@ -19,8 +19,9 @@ authors:
     family-names: "Ali"
     affiliation: "Ahmadu Bello University, Zaria, Nigeria"
 repository-code: "https://github.com/ElishaLeyden/TheVine"
+doi: "10.5281/zenodo.22837817"
 abstract: "TheVine is a single-file polyglot IDE that provides a declarative programming model for cross-language data exchange through a GraalVM-based execution environment."
-keywords:
+keywords: "polyglot programming; GraalVM; cross-language data exchange; IDE design; language interoperability "
   - "polyglot programming"
   - "integrated development environment"
   - "GraalVM"
