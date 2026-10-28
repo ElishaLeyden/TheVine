@@ -38,11 +38,10 @@ TheVine is a cross-platform desktop application built around a React/Electron fr
 | Execution engine | GraalVM                             |
 | Build tools      | Apache Maven + Vite                 |
 
-The middleware layer comprises four principal components:
+The middleware layer comprises three principal components:
 
 * **CodeParser** — parses composite `.tv` files into language-specific blocks and identifies directives.
-* **Dependency Resolver** — determines the execution order of blocks based on export/import dependencies.
-* **ExecutionEngine** — coordinates GraalVM-based execution and cross-language data transfer.
+* **ExecutionEngine** — runs blocks in declaration order, each in its own GraalVM engine, and coordinates cross-language data transfer (with native `javac` and `clang`/`gcc` fallbacks).
 * **WebSocket REPL** — provides interactive execution and communication with the backend.
 
 ---
@@ -61,9 +60,11 @@ TheVine/
 ├── frontend/
 │   ├── src/
 │   │   ├── App.jsx
-│   │   ├── TheVineEditor.jsx
-│   │   ├── Terminal.jsx
-│   │   └── InteractiveConsole.jsx
+│   │   ├── main.jsx
+│   │   └── components/
+│   │       ├── TheVineEditor.jsx
+│   │       ├── Terminal.jsx
+│   │       └── InteractiveConsole.jsx
 │   ├── package.json
 │   └── vite.config.js
 └── .gitignore
@@ -90,7 +91,7 @@ TheVine/
 @import('variable_name')
 ```
 
-`@export` makes a value available to dependent language blocks, while `@import` declares a dependency on an exported value.
+`@export` makes a value available to later language blocks, while `@import` inserts a value exported by an earlier block. Blocks run in the order they appear in the file, so a block must come after the block that exports the values it imports.
 
 ### Example
 
@@ -121,11 +122,12 @@ TheVine provides a WebSocket-based interactive REPL through the `/ws/repl` endpo
 Example messages include:
 
 ```json
-{ "type": "execute", "language": "python", "code": "x = 42" }
-{ "type": "execute", "language": "javascript", "code": "console.log(x)" }
+{ "type": "execute", "language": "python", "code": "print(6 * 7)" }
 { "type": "reset" }
 { "type": "interrupt" }
 ```
+
+Each `execute` message currently runs in a fresh GraalVM context, so variables defined in one message are not yet available in the next. The acknowledgements for `reset` and `interrupt` are not yet sent back to the client.
 
 ---
 
@@ -134,7 +136,6 @@ Example messages include:
 TheVine was evaluated through functional and performance testing covering:
 
 * `.tv` file parsing and directive recognition
-* Dependency resolution
 * Cross-language variable exchange
 * Supported type bridging
 * End-to-end execution scenarios
@@ -154,13 +155,9 @@ The current implementation has several limitations:
 * Some C/C++ programs require native compiler fallback because of limitations affecting particular LLVM/Sulong execution cases.
 * Deeply nested objects and some language-specific types are outside the current `convertValue()` type-bridging scope.
 * Key-value map structures are not currently transferable to C/C++ through the same mechanism used for supported primitive and collection types.
+* Blocks run in declaration order; dependencies are not reordered automatically, and a file should currently contain at most one block per language.
+* The interactive REPL does not yet keep variables between messages.
 * Performance and memory characteristics may vary with hardware, workload size, language combinations, and runtime configuration.
-
----
-
-## Related Publication
-
-Iheagwara, S. E., Leyden, K. E., Otu, G. A., & Ali, Y. S. (2026). *TheVine: A single-file polyglot IDE for declarative cross-language data exchange via GraalVM*. *Journal of Software: Evolution and Process*. Manuscript under review.
 
 ---
 
@@ -175,4 +172,4 @@ Iheagwara, S. E., Leyden, K. E., Otu, G. A., & Ali, Y. S. (2026). *TheVine: A si
 
 ## License
 
-License information will be added to the repository as appropriate.
+This project is released under the MIT License. See [LICENSE](LICENSE).
